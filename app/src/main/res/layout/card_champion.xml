@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:elevation="4dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Champion Image -->
+        <ImageView
+            android:id="@+id/championImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/circle"
+            android:scaleType="centerCrop">
+
+        </ImageView>
+
+        <!-- Champion Name -->
+        <TextView
+            android:id="@+id/championName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/championImage"
+            android:layout_centerHorizontal="true"
+            android:text="@string/champion_name"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/championDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/championName"
+            android:layout_centerHorizontal="true"
+            android:text="@string/champion_desc"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/championWinRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/championDescription"
+            android:layout_centerHorizontal="true"
+            android:text="@string/champion_winRate"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp"/>
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
-        android:name="com.example.mad2assignmenttwo.main.ChampionApp"
+        android:name=".main.ChampionApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -14,7 +14,10 @@
         android:theme="@style/Theme.MAD2AssignmentTwo"
         tools:targetApi="31">
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".activities.ListChampions"
+            android:exported="false" />
+        <activity
+            android:name=".activities.AddChampion"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
