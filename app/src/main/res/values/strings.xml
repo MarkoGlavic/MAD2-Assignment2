@@ -1,3 +1,35 @@
 <resources>
-    <string name="app_name">MAD2AssignmentTwo</string>
+    <string name="app_name">Champion Picker</string>
+    <string name="add_champion">Add Champion</string>
+    <string name="no_champions">No Champions Added</string>
+    <string name="add_role">Add Role</string>
+    <string name="role_name">Role Name</string>
+    <string name="role_desc">Role Description</string>
+    <string name="role_req">Add both name and description</string>
+    <string name="alert">Alert</string>
+    <string name="champion_desc">Champion Description</string>
+    <string name = "enter_desc"> Please Enter a Description</string>
+    <string name = "enter_champ"> Please Enter a Name</string>
+    <string name="ok">OK</string>
+    <string name="enter_winrate">Please Enter WinRate</string>
+
+    <string name="back_button">Back</string>
+    <string name="no_roles">No Roles Added</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="attention">Attention</string>
+    <string name="delete_question">Are you sure you want to delete?</string>
+    <string name="delete">Delete</string>
+    <string name="champion_winRate"> Win Rate</string>
+    <string name="champion_name"> Name</string>
+    <string name="required_fields">*required fields</string>
+    <string name="save">Save</string>
+    <string name="role">Role</string>
+    <string name="edit">Edit</string>
+    <string name="role_details">Role Details</string>
+    <string name="role_edit">Role Edit</string>
+    <string name="search">Search</string>
+    <string name="role_name_label">Name:</string>
+    <string name="role_description_label">Description:</string>
+    <string name="role_winrate_label">WinRate:</string>
 </resources>
