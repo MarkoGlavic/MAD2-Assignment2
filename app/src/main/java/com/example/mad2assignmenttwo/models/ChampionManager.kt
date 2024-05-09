@@ -8,7 +8,7 @@ internal fun getId(): Long {
     return lastId++
 }
 
-class ChampionMemStore : ChampionStore {
+object ChampionManager : ChampionStore {
 
     val champions = ArrayList<ChampionModel>()
 

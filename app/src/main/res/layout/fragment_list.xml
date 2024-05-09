@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.ListChampions">
+    tools:context=".ui.list.ListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -20,16 +20,27 @@
         app:layout_constraintVertical_bias="0.573" />
 
     <TextView
-        android:id="@+id/reportTitle"
+        android:id="@+id/championsNotFound"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/action_list"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        android:text="@string/no_champions"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/color_primary"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.052"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.238" />
+        tools:text="Champions not Found." />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@android:drawable/ic_input_add"
+        android:contentDescription="TODO" />
 </androidx.constraintlayout.widget.ConstraintLayout>

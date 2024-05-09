@@ -17,6 +17,8 @@
     <string name="nav_header_title">Champion Picker</string>
     <string name="nav_header_subtitle">test@test.com</string>
     <string name="nav_header_desc">Navigation header</string>
+    <string name="donationsNotFound">No champions in the database!</string>
+
     <string name="back_button">Back</string>
     <string name="no_roles">No Roles Added</string>
     <string name="no">No</string>
