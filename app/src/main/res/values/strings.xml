@@ -14,6 +14,9 @@
     <string name="enter_winrate">Please Enter WinRate</string>
     <string name="action_add">Add</string>
     <string name="action_list">List</string>
+    <string name="nav_header_title">Champion Picker</string>
+    <string name="nav_header_subtitle">test@test.com</string>
+    <string name="nav_header_desc">Navigation header</string>
     <string name="back_button">Back</string>
     <string name="no_roles">No Roles Added</string>
     <string name="no">No</string>
@@ -33,4 +36,6 @@
     <string name="role_name_label">Name:</string>
     <string name="role_description_label">Description:</string>
     <string name="role_winrate_label">WinRate:</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
