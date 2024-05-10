@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -20,6 +21,7 @@ import com.example.mad2assignmenttwo.R
 import com.example.mad2assignmenttwo.databinding.FragmentAddChampionBinding
 import com.example.mad2assignmenttwo.main.ChampionApp
 import com.example.mad2assignmenttwo.models.ChampionModel
+import com.example.mad2assignmenttwo.ui.auth.LoggedInViewModel
 import com.example.mad2assignmenttwo.ui.list.ListViewModel
 import timber.log.Timber
 
@@ -29,18 +31,17 @@ import timber.log.Timber
  * create an instance of this fragment.
  */
 class AddChampionFragment : Fragment() {
-//    lateinit var app: ChampionApp
     private var _fragBinding: FragmentAddChampionBinding? = null
     private val fragBinding get() = _fragBinding!!
     private lateinit var addChampionViewModel: AddChampionViewModel
+    private val listViewModel: ListViewModel by activityViewModels()
+    private val loggedInViewModel : LoggedInViewModel by activityViewModels()
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-
-
-
 
     }
 
@@ -50,13 +51,9 @@ class AddChampionFragment : Fragment() {
                 layout.championWinRateEditText.text.toString().toDouble() else 0.0
             val name = layout.championNameEditText.text.toString()
             val desc = layout.championDescEditText.text.toString()
-            addChampionViewModel.addChampion((
-                ChampionModel(
-                    championName = name,
-                    championDescription = desc,
-                    winRate = winRate
-                )
-            ))
+addChampionViewModel.addChampion(loggedInViewModel.liveFirebaseUser,ChampionModel(championName = name, championDescription = desc, winRate = winRate,
+    email = loggedInViewModel.liveFirebaseUser.value?.email!!   )
+)
             Timber.i("Champion Added $name")
 
         }

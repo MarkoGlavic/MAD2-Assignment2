@@ -1,5 +1,6 @@
 package com.example.mad2assignmenttwo.ui.list
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -17,13 +19,21 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.mad2assignmenttwo.R
 import com.example.mad2assignmenttwo.adapters.ChampionAdapter
 import com.example.mad2assignmenttwo.adapters.ChampionClickListener
 import com.example.mad2assignmenttwo.databinding.FragmentListBinding
 import com.example.mad2assignmenttwo.main.ChampionApp
 import com.example.mad2assignmenttwo.models.ChampionModel
+import com.example.mad2assignmenttwo.ui.auth.LoggedInViewModel
+import com.example.mad2assignmenttwo.utils.SwipeToDeleteCallback
+import com.example.mad2assignmenttwo.utils.SwipeToEditCallback
+import com.example.mad2assignmenttwo.utils.createLoader
+import com.example.mad2assignmenttwo.utils.hideLoader
+import com.example.mad2assignmenttwo.utils.showLoader
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 /**
@@ -31,16 +41,16 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
  * Use the [ListFragment.newInstance] factory method to
  * create an instance of this fragment.
  */class ListFragment : Fragment(), ChampionClickListener {
-    lateinit var app: ChampionApp
-
+   lateinit var loader : AlertDialog
     private var _fragBinding: FragmentListBinding? = null
     private val fragBinding get() = _fragBinding!!
-    private lateinit var listViewModel: ListViewModel
+    private val listViewModel: ListViewModel by activityViewModels()
+    private val loggedInViewModel : LoggedInViewModel by activityViewModels()
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
 
     }
 
@@ -70,23 +80,53 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
         val root = fragBinding.root
         activity?.title = getString(R.string.action_list)
         setupMenu()
+        loader = createLoader(requireActivity())
         fragBinding.recyclerView.layoutManager = GridLayoutManager(activity,2)
-        listViewModel = ViewModelProvider(this).get(ListViewModel::class.java)
-        listViewModel.observableChampionList.observe(viewLifecycleOwner, Observer {
-                champions ->
-            champions?.let { render(champions) }
-        })
-
-        val fab: FloatingActionButton = fragBinding.fab
-        fab.setOnClickListener {
+        fragBinding.fab.setOnClickListener {
             val action = ListFragmentDirections.actionListFragmentToAddChampionFragment()
             findNavController().navigate(action)
         }
+        showLoader(loader,"Downloading Champions")
+        listViewModel.observableChampionList.observe(viewLifecycleOwner, Observer {
+                champions ->
+            champions?.let {
+                render(champions as ArrayList<ChampionModel>)
+                hideLoader(loader)
+                checkSwipeRefresh()
+            }
+        })
+
+        setSwipeRefresh()
+        val swipeDeleteHandler = object : SwipeToDeleteCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                showLoader(loader,"Deleting Champions")
+                val adapter = fragBinding.recyclerView.adapter as ChampionAdapter
+                adapter.removeAt(viewHolder.adapterPosition)
+                listViewModel.delete(listViewModel.liveFirebaseUser.value?.uid!!,
+                    (viewHolder.itemView.tag as ChampionModel).uid!!)
+
+                hideLoader(loader)
+            }
+        }
+
+        val itemTouchDeleteHelper = ItemTouchHelper(swipeDeleteHandler)
+        itemTouchDeleteHelper.attachToRecyclerView(fragBinding.recyclerView)
+
+        val swipeEditHandler = object : SwipeToEditCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                onChampionClick(viewHolder.itemView.tag as ChampionModel)
+            }
+        }
+        val itemTouchEditHelper = ItemTouchHelper(swipeEditHandler)
+        itemTouchEditHelper.attachToRecyclerView(fragBinding.recyclerView)
+
+
+
 
         return root
     }
 
-    private fun render(championsList: List<ChampionModel>) {
+    private fun render(championsList: ArrayList<ChampionModel>) {
         fragBinding.recyclerView.adapter = ChampionAdapter(championsList, this)
         if (championsList.isEmpty()) {
             fragBinding.recyclerView.visibility = View.GONE
@@ -97,13 +137,34 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
         }
     }
     override fun onChampionClick(champion: ChampionModel) {
-        val action = ListFragmentDirections.actionListFragmentToChampionDetailFragment(champion.id)
+        val action = ListFragmentDirections.actionListFragmentToChampionDetailFragment(champion.uid!!)
         findNavController().navigate(action)
     }
 
     override fun onResume() {
         super.onResume()
-        listViewModel.load()
+        showLoader(loader,"Downloading Champions")
+        loggedInViewModel.liveFirebaseUser.observe(viewLifecycleOwner, Observer { firebaseUser ->
+            if (firebaseUser != null) {
+                listViewModel.liveFirebaseUser.value = firebaseUser
+                listViewModel.load()
+            }
+        })
+        //hideLoader(loader)
+    }
+
+    private fun setSwipeRefresh() {
+        fragBinding.swiperefresh.setOnRefreshListener {
+            fragBinding.swiperefresh.isRefreshing = true
+            showLoader(loader,"Downloading Champions")
+            listViewModel.load()
+
+        }
+    }
+
+    private fun checkSwipeRefresh() {
+        if (fragBinding.swiperefresh.isRefreshing)
+            fragBinding.swiperefresh.isRefreshing = false
     }
 
 

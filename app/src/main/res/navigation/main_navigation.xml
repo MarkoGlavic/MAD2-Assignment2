@@ -37,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/championDetailFragment"
-        android:name="com.example.mad2assignmenttwo.ChampionDetailFragment"
+        android:name="com.example.mad2assignmenttwo.ui.detail.ChampionDetailFragment"
         android:label="fragment_champion_detail"
         tools:layout="@layout/fragment_champion_detail" >
         <action
@@ -45,6 +45,6 @@
             app:destination="@id/listFragment" />
         <argument
             android:name="championid"
-            app:argType="long" />
+            app:argType="string" />
     </fragment>
 </navigation>

@@ -1,38 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="?attr/actionBarSize">
 
 
+    <data>
+        <variable
+            name="championvm"
+            type="com.example.mad2assignmenttwo.ui.detail.ChampionDetailViewModel" />
+    </data>
 
-    <!-- Champion Name -->
-    <EditText
-        android:id="@+id/textViewChampionName"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/name"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:layout_height="match_parent"
+        tools:context=".ui.detail.ChampionDetailFragment">
 
-    <!-- Champion Description -->
-    <EditText
-        android:id="@+id/textViewChampionDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/description"
-        android:textSize="16sp"
-        android:layout_marginTop="8dp"/>
+        <!-- Name Label -->
+        <TextView
+            android:id="@+id/labelName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name:"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@id/editName"
+            app:layout_constraintTop_toTopOf="@id/editName" />
 
-    <!-- Champion Winrate -->
-    <EditText
-        android:id="@+id/textViewChampionWinrate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/winRate"
-        android:textSize="16sp"
-        android:layout_marginTop="8dp"/>
+        <!-- Name EditText -->
+        <EditText
+            android:id="@+id/editName"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            android:ems="10"
+            android:inputType="number"
+            android:textAlignment="viewStart"
+            android:textSize="24sp"
+            android:text="@{championvm.observableChampion.championName}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</LinearLayout>
+        <!-- Description Label -->
+        <TextView
+            android:id="@+id/labelDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description:"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@id/editDesc"
+            app:layout_constraintTop_toTopOf="@id/editDesc" />
+
+        <!-- Description EditText -->
+        <EditText
+            android:id="@+id/editDesc"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            android:ems="10"
+            android:textAlignment="viewStart"
+            android:textSize="24sp"
+            android:text="@{championvm.observableChampion.championDescription}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editName" />
+
+        <!-- Winrate Label -->
+        <TextView
+            android:id="@+id/labelWinrate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Winrate:"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@id/editWinrate"
+            app:layout_constraintTop_toTopOf="@id/editWinrate" />
+
+        <!-- Winrate EditText -->
+        <EditText
+            android:id="@+id/editWinrate"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            android:ems="10"
+            android:inputType="number"
+            android:textAlignment="viewStart"
+            android:textSize="24sp"
+            android:text="@{Double.toString(championvm.observableChampion.winRate)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editDesc" />
+
+        <!-- Edit Button -->
+        <Button
+            android:id="@+id/editChampionButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Edit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/deleteChampionButton"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- Delete Button -->
+        <Button
+            android:id="@+id/deleteChampionButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/editChampionButton" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

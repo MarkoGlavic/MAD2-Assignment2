@@ -12,7 +12,7 @@ import com.example.mad2assignmenttwo.models.ChampionModel
 interface ChampionClickListener {
     fun onChampionClick(champion: ChampionModel)
 }
-class ChampionAdapter constructor(private var champions: List<ChampionModel>,
+class ChampionAdapter constructor(private var champions: ArrayList<ChampionModel>,
                                   private val listener: ChampionClickListener)
     : RecyclerView.Adapter<ChampionAdapter.MainHolder>() {
 
@@ -30,13 +30,18 @@ class ChampionAdapter constructor(private var champions: List<ChampionModel>,
 
     override fun getItemCount(): Int = champions.size
 
+    fun removeAt(position: Int) {
+        champions.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
     inner class MainHolder(val binding : CardChampionBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(champion:ChampionModel,listener: ChampionClickListener) {
 //            binding.championName.text = champion.championName
 //            binding.championDescription.text = champion.championDescription
 //            binding.championWinRate.text = champion.winRate.toString
-
+            binding.root.tag = champion
             binding.champion=champion
             binding.championImage.setImageResource(R.mipmap.ic_yasuo)
             binding.root.setOnClickListener { listener.onChampionClick(champion) }
