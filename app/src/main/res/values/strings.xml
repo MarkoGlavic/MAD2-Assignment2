@@ -11,6 +11,11 @@
     <string name="enter_desc"> Please Enter a Description</string>
     <string name="enter_champ"> Please Enter a Name</string>
     <string name="ok">OK</string>
+    <string name="champion_error">Error : Couldn\'t Add a Champion...</string>
+    <string name="championDetails">Champion Details</string>
+    <string name="name">Name :</string>
+    <string name="description">Description :</string>
+    <string name="winRate">WinrateI :</string>
     <string name="enter_winrate">Please Enter WinRate</string>
     <string name="action_add">Add</string>
     <string name="action_list">List</string>

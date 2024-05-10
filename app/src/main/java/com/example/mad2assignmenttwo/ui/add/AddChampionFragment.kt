@@ -7,6 +7,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -19,6 +20,7 @@ import com.example.mad2assignmenttwo.R
 import com.example.mad2assignmenttwo.databinding.FragmentAddChampionBinding
 import com.example.mad2assignmenttwo.main.ChampionApp
 import com.example.mad2assignmenttwo.models.ChampionModel
+import com.example.mad2assignmenttwo.ui.list.ListViewModel
 import timber.log.Timber
 
 /**
@@ -27,7 +29,7 @@ import timber.log.Timber
  * create an instance of this fragment.
  */
 class AddChampionFragment : Fragment() {
-    lateinit var app: ChampionApp
+//    lateinit var app: ChampionApp
     private var _fragBinding: FragmentAddChampionBinding? = null
     private val fragBinding get() = _fragBinding!!
     private lateinit var addChampionViewModel: AddChampionViewModel
@@ -35,8 +37,8 @@ class AddChampionFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        app = activity?.application as ChampionApp
-//        setHasOptionsMenu(true)
+        setHasOptionsMenu(true)
+
 
 
 
@@ -48,13 +50,13 @@ class AddChampionFragment : Fragment() {
                 layout.championWinRateEditText.text.toString().toDouble() else 0.0
             val name = layout.championNameEditText.text.toString()
             val desc = layout.championDescEditText.text.toString()
-            app.championStore.create(
+            addChampionViewModel.addChampion((
                 ChampionModel(
                     championName = name,
                     championDescription = desc,
                     winRate = winRate
                 )
-            )
+            ))
             Timber.i("Champion Added $name")
 
         }
@@ -68,11 +70,9 @@ class AddChampionFragment : Fragment() {
         val root = fragBinding.root
         activity?.title = getString(R.string.action_add)
         setupMenu()
-        addChampionViewModel =
-            ViewModelProvider(this).get(AddChampionViewModel::class.java)
-        //val textView: TextView = root.findViewById(R.id.text_home)
-        addChampionViewModel.text.observe(viewLifecycleOwner, Observer {
-            //textView.text = it
+        addChampionViewModel = ViewModelProvider(this).get(AddChampionViewModel::class.java)
+        addChampionViewModel.observableStatus.observe(viewLifecycleOwner, Observer {
+                status -> status?.let { render(status) }
         })
         setButtonListener(fragBinding)
 
@@ -99,6 +99,17 @@ class AddChampionFragment : Fragment() {
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
+    private fun render(status: Boolean) {
+        when (status) {
+            true -> {
+                view?.let {
+                    //Uncomment this if you want to immediately return to Report
+                    //findNavController().popBackStack()
+                }
+            }
+            false -> Toast.makeText(context,getString(R.string.champion_error),Toast.LENGTH_LONG).show()
+        }
+    }
 
 
     override fun onDestroyView() {
@@ -108,7 +119,10 @@ class AddChampionFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        val listViewModel = ViewModelProvider(this).get(ListViewModel::class.java)
+        listViewModel.observableChampionList.observe(viewLifecycleOwner, Observer {
 
+        })
     }
     companion object {
         @JvmStatic

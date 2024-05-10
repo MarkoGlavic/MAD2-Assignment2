@@ -16,9 +16,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mad2assignmenttwo.R
 import com.example.mad2assignmenttwo.adapters.ChampionAdapter
+import com.example.mad2assignmenttwo.adapters.ChampionClickListener
 import com.example.mad2assignmenttwo.databinding.FragmentListBinding
 import com.example.mad2assignmenttwo.main.ChampionApp
 import com.example.mad2assignmenttwo.models.ChampionModel
@@ -28,7 +30,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
  * A simple [Fragment] subclass.
  * Use the [ListFragment.newInstance] factory method to
  * create an instance of this fragment.
- */class ListFragment : Fragment() {
+ */class ListFragment : Fragment(), ChampionClickListener {
     lateinit var app: ChampionApp
 
     private var _fragBinding: FragmentListBinding? = null
@@ -66,8 +68,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
     ): View? {
         _fragBinding = FragmentListBinding.inflate(inflater, container, false)
         val root = fragBinding.root
+        activity?.title = getString(R.string.action_list)
         setupMenu()
-        fragBinding.recyclerView.layoutManager = LinearLayoutManager(activity)
+        fragBinding.recyclerView.layoutManager = GridLayoutManager(activity,2)
         listViewModel = ViewModelProvider(this).get(ListViewModel::class.java)
         listViewModel.observableChampionList.observe(viewLifecycleOwner, Observer {
                 champions ->
@@ -84,7 +87,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
     }
 
     private fun render(championsList: List<ChampionModel>) {
-        fragBinding.recyclerView.adapter = ChampionAdapter(championsList)
+        fragBinding.recyclerView.adapter = ChampionAdapter(championsList, this)
         if (championsList.isEmpty()) {
             fragBinding.recyclerView.visibility = View.GONE
             fragBinding.championsNotFound.visibility = View.VISIBLE
@@ -92,6 +95,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
             fragBinding.recyclerView.visibility = View.VISIBLE
             fragBinding.championsNotFound.visibility = View.GONE
         }
+    }
+    override fun onChampionClick(champion: ChampionModel) {
+        val action = ListFragmentDirections.actionListFragmentToChampionDetailFragment(champion.id)
+        findNavController().navigate(action)
     }
 
     override fun onResume() {

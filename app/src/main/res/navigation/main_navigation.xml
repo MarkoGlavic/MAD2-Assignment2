@@ -15,6 +15,9 @@
             app:destination="@id/listFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_addChampionFragment_to_championDetailFragment"
+            app:destination="@id/championDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/listFragment"
@@ -24,7 +27,24 @@
         <action
             android:id="@+id/action_listFragment_to_addChampionFragment"
             app:destination="@id/addChampionFragment"
+            app:popUpTo="@id/main_navigation"
+            app:popUpToInclusive="true"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_listFragment_to_championDetailFragment"
+            app:destination="@id/championDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/championDetailFragment"
+        android:name="com.example.mad2assignmenttwo.ChampionDetailFragment"
+        android:label="fragment_champion_detail"
+        tools:layout="@layout/fragment_champion_detail" >
+        <action
+            android:id="@+id/action_championDetailFragment_to_listFragment"
+            app:destination="@id/listFragment" />
+        <argument
+            android:name="championid"
+            app:argType="long" />
     </fragment>
 </navigation>

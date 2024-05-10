@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<data>
+<variable
+    name="champion"
+    type="com.example.mad2assignmenttwo.models.ChampionModel" />
+</data>
+<androidx.cardview.widget.CardView
+
+
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
+    android:layout_weight="0.5"
     android:elevation="4dp">
 
     <RelativeLayout
@@ -31,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/championImage"
             android:layout_centerHorizontal="true"
-            android:text="@string/champion_name"
+            android:text="@{champion.championName}"
             android:textSize="16sp"
             android:textStyle="bold"
             android:layout_marginTop="8dp"/>
@@ -42,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/championName"
             android:layout_centerHorizontal="true"
-            android:text="@string/champion_desc"
+            android:text="@{champion.championDescription}"
             android:textSize="14sp"
             android:layout_marginTop="8dp"/>
 
@@ -52,9 +61,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/championDescription"
             android:layout_centerHorizontal="true"
-            android:text="@string/champion_winRate"
+            android:text="@{Double.toString(champion.winRate)}"
             android:textSize="14sp"
             android:layout_marginTop="8dp"/>
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
+    </layout>
