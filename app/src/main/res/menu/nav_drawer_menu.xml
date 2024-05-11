@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
+
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/addChampionFragment"
@@ -19,5 +20,4 @@
             android:onClick="signOut"
             android:title="@string/sign_out" />
     </group>
-
 </menu>
