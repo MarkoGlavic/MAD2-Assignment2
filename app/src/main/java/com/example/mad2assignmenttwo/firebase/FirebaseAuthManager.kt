@@ -1,8 +1,10 @@
 package com.example.mad2assignmenttwo.firebase
 
 import android.app.Application
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.example.mad2assignmenttwo.R
+import com.example.mad2assignmenttwo.databinding.NavHeaderBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -32,9 +34,12 @@ class FirebaseAuthManager(application: Application) {
             liveFirebaseUser.postValue(firebaseAuth!!.currentUser)
             loggedOut.postValue(false)
             errorStatus.postValue(false)
+            FirebaseImageManager.checkStorageForExistingProfilePic(
+                firebaseAuth!!.currentUser!!.uid)
         }
         configureGoogleSignIn()
     }
+
     private fun configureGoogleSignIn() {
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

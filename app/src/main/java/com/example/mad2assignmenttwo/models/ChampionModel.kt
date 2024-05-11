@@ -9,7 +9,9 @@ data class ChampionModel(var uid: String? = "",
                          var championName: String = "N/A",
                          var championDescription: String = "N/A",
                          var winRate: Double = 0.0,
-                         var email: String? = "joe@bloggs.com") : Parcelable
+                         var profilepic: String = "",
+                         var email: String? = "joe@bloggs.com",
+                         var isFavorite: Boolean = false) : Parcelable
 
 {
     @Exclude
@@ -19,7 +21,9 @@ data class ChampionModel(var uid: String? = "",
             "championName" to championName,
             "championDescription" to championDescription,
             "winRate" to winRate,
-            "email" to email
+            "profilepic" to profilepic,
+            "email" to email,
+            "isFavourite" to isFavorite
 
         )
     }

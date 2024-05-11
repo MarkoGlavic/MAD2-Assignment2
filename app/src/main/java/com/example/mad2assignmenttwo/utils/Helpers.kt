@@ -1,10 +1,18 @@
 package com.example.mad2assignmenttwo.utils
 
 
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.Intent
+import android.net.Uri
+import android.view.animation.Transformation
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.FragmentActivity
 import com.example.mad2assignmenttwo.R
+import com.google.firebase.database.collection.LLRBNode.Color
+import com.makeramen.roundedimageview.RoundedTransformationBuilder
+import java.io.IOException
 
 fun createLoader(activity: FragmentActivity) : AlertDialog {
     val loaderBuilder = AlertDialog.Builder(activity)
@@ -43,4 +51,31 @@ fun serviceAvailableMessage(activity: FragmentActivity) {
         "Champion Contacted Successfully",
         Toast.LENGTH_LONG
     ).show()
+}
+
+fun customTransformation() : com.squareup.picasso.Transformation =
+    RoundedTransformationBuilder()
+        .borderColor(android.graphics.Color.WHITE)
+        .borderWidthDp(2F)
+        .cornerRadiusDp(35F)
+        .oval(false)
+        .build()
+
+
+fun showImagePicker(intentLauncher : ActivityResultLauncher<Intent>) {
+    var chooseFile = Intent(Intent.ACTION_OPEN_DOCUMENT)
+    chooseFile.type = "image/*"
+    chooseFile = Intent.createChooser(chooseFile, R.string.select_profile_image.toString())
+    intentLauncher.launch(chooseFile)
+}
+
+fun readImageUri(resultCode: Int, data: Intent?): Uri? {
+    var uri: Uri? = null
+    if (resultCode == Activity.RESULT_OK && data != null && data.data != null) {
+        try { uri = data.data }
+        catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
+    return uri
 }

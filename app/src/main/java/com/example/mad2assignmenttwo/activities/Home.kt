@@ -1,9 +1,14 @@
 package com.example.mad2assignmenttwo.activities
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
@@ -17,11 +22,15 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.mad2assignmenttwo.R
 import com.example.mad2assignmenttwo.databinding.HomeBinding
 import com.example.mad2assignmenttwo.databinding.NavHeaderBinding
+import com.example.mad2assignmenttwo.firebase.FirebaseImageManager
 import com.example.mad2assignmenttwo.ui.auth.LoggedInViewModel
 import com.example.mad2assignmenttwo.ui.auth.Login
+import com.example.mad2assignmenttwo.utils.readImageUri
+import com.example.mad2assignmenttwo.utils.showImagePicker
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseUser
+import timber.log.Timber
 
 class Home : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
@@ -29,6 +38,9 @@ class Home : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navHeaderBinding : NavHeaderBinding
     private lateinit var loggedInViewModel : LoggedInViewModel
+    private lateinit var headerView : View
+    private lateinit var intentLauncher : ActivityResultLauncher<Intent>
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,9 +58,39 @@ class Home : AppCompatActivity() {
 
         appBarConfiguration = AppBarConfiguration(setOf(R.id.addChampionFragment, R.id.listFragment), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
+        initNavHeader()
 
         val navView = homeBinding.navView
         navView.setupWithNavController(navController)
+    }
+
+
+    private fun initNavHeader() {
+        Timber.i("DX Init Nav Header")
+        headerView = homeBinding.navView.getHeaderView(0)
+        navHeaderBinding = NavHeaderBinding.bind(headerView)
+        navHeaderBinding.navHeaderImage.setOnClickListener {
+            showImagePicker(intentLauncher)
+        }
+    }
+
+    private fun registerImagePickerCallback() {
+        intentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                when(result.resultCode){
+                    RESULT_OK -> {
+                        if (result.data != null) {
+                            Timber.i("DX registerPickerCallback() ${readImageUri(result.resultCode, result.data).toString()}")
+                            FirebaseImageManager
+                                .updateUserImage(loggedInViewModel.liveFirebaseUser.value!!.uid,
+                                    readImageUri(result.resultCode, result.data),
+                                    navHeaderBinding.navHeaderImage,
+                                    true)
+                        } // end of if
+                    }
+                    RESULT_CANCELED -> { } else -> { }
+                }
+            }
     }
 
     public override fun onStart() {
@@ -57,7 +99,7 @@ class Home : AppCompatActivity() {
         loggedInViewModel.liveFirebaseUser.observe(this, Observer { firebaseUser ->
             if (firebaseUser != null) {
                 //val currentUser = loggedInViewModel.liveFirebaseUser.value
-                /*if (currentUser != null)*/ updateNavHeader(loggedInViewModel.liveFirebaseUser.value!!)
+                /*if (currentUser != null)*/ updateNavHeader(firebaseUser)
             }
         })
 
@@ -66,14 +108,43 @@ class Home : AppCompatActivity() {
                 startActivity(Intent(this, Login::class.java))
             }
         })
+        registerImagePickerCallback()
 
     }
 
     private fun updateNavHeader(currentUser: FirebaseUser) {
-        var headerView = homeBinding.navView.getHeaderView(0)
-        navHeaderBinding = NavHeaderBinding.bind(headerView)
+        FirebaseImageManager.imageUri.observe(this) { result ->
+            if (result == Uri.EMPTY) {
+                Timber.i("DX NO Existing imageUri")
+                if (currentUser.photoUrl != null) {
+                    //if you're a google user
+                    FirebaseImageManager.updateUserImage(
+                        currentUser.uid,
+                        currentUser.photoUrl,
+                        navHeaderBinding.navHeaderImage,
+                        false
+                    )
+                } else {
+                    Timber.i("DX Loading Existing Default imageUri")
+                    FirebaseImageManager.updateDefaultImage(
+                        currentUser.uid,
+                        R.drawable.yasuocircle,
+                        navHeaderBinding.navHeaderImage
+                    )
+                }        } else // load existing image from firebase
+            {
+                Timber.i("DX Loading Existing imageUri")
+                FirebaseImageManager.updateUserImage(
+                    currentUser.uid,
+                    FirebaseImageManager.imageUri.value,
+                    navHeaderBinding.navHeaderImage, false
+                )
+            }    }
         navHeaderBinding.navHeaderEmail.text = currentUser.email
+        if(currentUser.displayName != null)
+            navHeaderBinding.navHeaderName.text = currentUser.displayName
     }
+
 
 
     override fun onSupportNavigateUp(): Boolean {

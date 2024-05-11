@@ -8,6 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -62,6 +63,16 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.menu_list, menu)
+
+                val item = menu.findItem(R.id.toggleChampions) as MenuItem
+                item.setActionView(R.layout.togglebutton_layout)
+                val toggleChampions: SwitchCompat = item.actionView!!.findViewById(R.id.toggleButton)
+                toggleChampions.isChecked = false
+
+                toggleChampions.setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) listViewModel.loadAll()
+                    else listViewModel.load()
+                }
             }
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
@@ -143,7 +154,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
     }
 
     private fun render(championsList: ArrayList<ChampionModel>) {
-        fragBinding.recyclerView.adapter = ChampionAdapter(championsList, this)
+        fragBinding.recyclerView.adapter = ChampionAdapter(championsList,  this,listViewModel.readOnly.value!!
+        )
         if (championsList.isEmpty()) {
             fragBinding.recyclerView.visibility = View.GONE
             fragBinding.championsNotFound.visibility = View.VISIBLE
@@ -154,7 +166,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
     }
     override fun onChampionClick(champion: ChampionModel) {
         val action = ListFragmentDirections.actionListFragmentToChampionDetailFragment(champion.uid!!)
-        findNavController().navigate(action)
+        if(!listViewModel.readOnly.value!!)
+            findNavController().navigate(action)
     }
 
     override fun onResume() {
@@ -173,7 +186,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
         fragBinding.swiperefresh.setOnRefreshListener {
             fragBinding.swiperefresh.isRefreshing = true
             showLoader(loader,"Downloading Champions")
-            listViewModel.load()
+            if(listViewModel.readOnly.value!!)
+                listViewModel.loadAll()
+            else
+                listViewModel.load()
 
         }
     }

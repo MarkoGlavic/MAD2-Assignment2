@@ -17,9 +17,47 @@ object FirebaseDBManager : ChampionStore {
     var database: DatabaseReference = FirebaseDatabase.getInstance().reference
 
     override fun findAll(championList: MutableLiveData<List<ChampionModel>>) {
-        TODO("Not yet implemented")
+        database.child("champions")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    Timber.i("Firebase Champion error : ${error.message}")
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val localList = ArrayList<ChampionModel>()
+                    val children = snapshot.children
+                    children.forEach {
+                        val champion = it.getValue(ChampionModel::class.java)
+                        localList.add(champion!!)
+                    }
+                    database.child("champions")
+                        .removeEventListener(this)
+
+                    championList.value = localList
+                }
+            })
     }
 
+    fun updateImageRef(userid: String,imageUri: String) {
+
+        val userChampions = database.child("user-champions").child(userid)
+        val allChampions = database.child("champions")
+
+        userChampions.addListenerForSingleValueEvent(
+            object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {}
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.children.forEach {
+                        //Update Users imageUri
+                        it.ref.child("profilepic").setValue(imageUri)
+                        //Update all donations that match 'it'
+                        val champion = it.getValue(ChampionModel::class.java)
+                        allChampions.child(champion!!.uid!!)
+                            .child("profilepic").setValue(imageUri)
+                    }
+                }
+            })
+    }
     override fun findAll(userid: String, championList: MutableLiveData<List<ChampionModel>>) {
 
         database.child("user-champions").child(userid)

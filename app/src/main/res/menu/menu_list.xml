@@ -12,4 +12,10 @@
         android:title="Filter by Name"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/toggleChampions"
+        android:title=""
+        app:actionLayout="@layout/togglebutton_layout"
+        app:showAsAction="always" />
+
 </menu>

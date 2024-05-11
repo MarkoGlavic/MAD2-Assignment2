@@ -18,6 +18,9 @@ class ListViewModel: ViewModel() {
     val observableChampionList: LiveData<List<ChampionModel>>
         get() = championList
 
+    var readOnly = MutableLiveData(false)
+
+
     var liveFirebaseUser = MutableLiveData<FirebaseUser>()
 
 
@@ -28,6 +31,7 @@ class ListViewModel: ViewModel() {
 
     fun load() {
         try {
+            readOnly.value = false
             //DonationManager.findAll(liveFirebaseUser.value?.email!!, donationsList)
             FirebaseDBManager.findAll(liveFirebaseUser.value?.uid!!,championList)
             Timber.i("Report Load Success : ${championList.value.toString()}")
@@ -37,6 +41,16 @@ class ListViewModel: ViewModel() {
         }
     }
 
+    fun loadAll() {
+        try {
+            readOnly.value = true
+            FirebaseDBManager.findAll(championList)
+            Timber.i("Report LoadAll Success : ${championList.value.toString()}")
+        }
+        catch (e: Exception) {
+            Timber.i("Report LoadAll Error : $e.message")
+        }
+    }
     fun delete(userid: String, id: String) {
         try {
             //DonationManager.delete(userid,id)
