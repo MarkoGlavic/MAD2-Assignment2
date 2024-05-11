@@ -92,4 +92,5 @@ object FirebaseDBManager : ChampionStore {
 
         database.updateChildren(childUpdate)
     }
+
 }
