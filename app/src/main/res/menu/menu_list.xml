@@ -3,8 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/addChampionFragment"
-        android:orderInCategory="100"
-        android:title="@string/action_add"
+        android:id="@+id/action_filter_winrate"
+        android:title="Filter by Winrate"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_filter_alphabetical"
+        android:title="Filter by Name"
+        app:showAsAction="never" />
+
 </menu>

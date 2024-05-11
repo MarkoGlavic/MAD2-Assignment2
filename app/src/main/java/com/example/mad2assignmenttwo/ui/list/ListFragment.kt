@@ -63,15 +63,31 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.menu_list, menu)
             }
-
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                // Validate and handle the selected menu item
-                return NavigationUI.onNavDestinationSelected(menuItem,
-                    requireView().findNavController())
+                return when (menuItem.itemId) {
+                    R.id.action_filter_winrate -> {
+                        filterByWinrate()
+                        true
+                    }
+                        R.id.action_filter_alphabetical -> {
+                        filterAlphabetically()
+                        true
+                    }
+                    else -> false
+                }
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
+
+    private fun filterAlphabetically() {
+        val sortedList = listViewModel.observableChampionList.value?.sortedBy { it.championName }
+        sortedList?.let { render(ArrayList(it)) }
+    }
+    private fun filterByWinrate() {
+        val sortedList = listViewModel.observableChampionList.value?.sortedByDescending { it.winRate }
+        sortedList?.let { render(ArrayList(it)) }
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
