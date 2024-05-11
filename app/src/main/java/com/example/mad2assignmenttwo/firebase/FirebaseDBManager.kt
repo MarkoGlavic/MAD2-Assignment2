@@ -131,4 +131,10 @@ object FirebaseDBManager : ChampionStore {
         database.updateChildren(childUpdate)
     }
 
+    fun updateFavoriteStatus(champion: ChampionModel, userId: String) {
+        val favoriteRef = database.child("user-favourites").child(userId).child(champion.uid!!)
+        favoriteRef.setValue(champion.isFavorite)
+    }
+
+
 }

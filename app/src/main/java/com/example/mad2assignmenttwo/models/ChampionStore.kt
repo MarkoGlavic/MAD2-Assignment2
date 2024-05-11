@@ -13,5 +13,5 @@ interface ChampionStore {
                  champion: MutableLiveData<ChampionModel>)
     fun create(firebaseUser: MutableLiveData<FirebaseUser>, champion: ChampionModel)
     fun delete(userid:String, championid: String)
-    fun update(userid:String, championid: String, donation: ChampionModel)
+    fun update(userid:String, championid: String, champion: ChampionModel)
 }

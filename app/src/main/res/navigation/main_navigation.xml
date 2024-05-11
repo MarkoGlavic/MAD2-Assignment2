@@ -17,7 +17,9 @@
             app:exitAnim="@anim/nav_default_exit_anim" />
         <action
             android:id="@+id/action_addChampionFragment_to_championDetailFragment"
-            app:destination="@id/championDetailFragment" />
+            app:destination="@id/championDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/listFragment"
@@ -33,7 +35,9 @@
             app:exitAnim="@anim/nav_default_exit_anim" />
         <action
             android:id="@+id/action_listFragment_to_championDetailFragment"
-            app:destination="@id/championDetailFragment" />
+            app:destination="@id/championDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/championDetailFragment"
@@ -42,7 +46,9 @@
         tools:layout="@layout/fragment_champion_detail" >
         <action
             android:id="@+id/action_championDetailFragment_to_listFragment"
-            app:destination="@id/listFragment" />
+            app:destination="@id/listFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
         <argument
             android:name="championid"
             app:argType="string" />

@@ -65,6 +65,17 @@
             android:textSize="14sp"
             android:layout_marginTop="8dp"/>
 
+<!--        <ToggleButton-->
+<!--            android:id="@+id/toggleFavoriteButton"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/championWinRate"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:textOff="@drawable/ic_heart_outline"-->
+<!--            android:textOn="@drawable/ic_heart_filled"-->
+<!--            android:checked="@={champion.favorite}"-->
+<!--            android:layout_marginTop="8dp"/>-->
+
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
     </layout>

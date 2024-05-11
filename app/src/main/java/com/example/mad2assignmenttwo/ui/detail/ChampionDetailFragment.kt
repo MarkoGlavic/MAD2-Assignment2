@@ -34,6 +34,7 @@ class ChampionDetailFragment : Fragment() {
     ): View? {
         _fragBinding = FragmentChampionDetailBinding.inflate(inflater, container, false)
         val root = fragBinding.root
+        activity?.title = getString(R.string.championDetails)
 
         championViewModel = ViewModelProvider(this).get(ChampionDetailViewModel::class.java)
         championViewModel.observableChampion.observe(viewLifecycleOwner, Observer { render() })
