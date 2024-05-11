@@ -58,11 +58,11 @@ class ChampionAdapter constructor(private var champions: ArrayList<ChampionModel
                 .into(binding.championImage)
             binding.root.setOnClickListener { listener.onChampionClick(champion) }
             binding.executePendingBindings()
-//            binding.toggleFavoriteButton.setOnCheckedChangeListener { _, isChecked ->
-//
-//                champion.isFavorite = isChecked
-////                FirebaseDBManager.updateFavoriteStatus(champion, userId)                }
-//            }
+            binding.toggleFavoriteButton.setOnCheckedChangeListener { _, isChecked ->
+
+                champion.isFavorite = isChecked
+//                FirebaseDBManager.updateFavoriteStatus(champion, userId)                }
+            }
         }
     }
 }
