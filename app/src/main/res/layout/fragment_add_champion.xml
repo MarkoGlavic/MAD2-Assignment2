@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,74 +9,66 @@
     tools:context=".ui.add.AddChampionFragment"
     android:layout_marginTop="?attr/actionBarSize">
 
-
-    <TextView
-        android:id="@+id/championNameTitle"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/championNameLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/champion_name"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textStyle="bold"
+        app:hintEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/championNameEditText"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/championNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_champ"
+            android:inputType="text"
+            android:minHeight="48dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/championDescLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:hint="@string/enter_champ"
-        android:inputType="text"
-        android:minHeight="48dp"
+        app:hintEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/championNameTitle" />
+        app:layout_constraintTop_toBottomOf="@id/championNameLayout">
 
-    <TextView
-        android:id="@+id/championDescTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/champion_desc"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/championNameEditText" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/championDescEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_desc"
+            android:inputType="text"
+            android:minHeight="48dp" />
 
-    <EditText
-        android:id="@+id/championDescEditText"
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/championWinRateLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:hint="@string/enter_champ"
-        android:inputType="text"
-        android:minHeight="48dp"
+        app:hintEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/championDescTitle"/>
+        app:layout_constraintTop_toBottomOf="@id/championDescLayout">
 
-    <TextView
-        android:id="@+id/championWinRateTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/enter_winrate"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/championDescEditText" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/championWinRateEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_winrate"
+            android:inputType="numberDecimal"
+            android:minHeight="48dp" />
 
-    <EditText
-        android:id="@+id/championWinRateEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="@string/enter_winrate"
-        android:inputType="numberDecimal"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/championWinRateTitle" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/addChampionButton"
@@ -87,6 +80,6 @@
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/championWinRateEditText" />
+        app:layout_constraintTop_toBottomOf="@id/championWinRateLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

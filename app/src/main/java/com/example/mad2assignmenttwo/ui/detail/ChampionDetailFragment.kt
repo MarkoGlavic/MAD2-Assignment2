@@ -15,6 +15,7 @@ import com.example.mad2assignmenttwo.R
 import com.example.mad2assignmenttwo.databinding.FragmentChampionDetailBinding
 import com.example.mad2assignmenttwo.ui.auth.LoggedInViewModel
 import com.example.mad2assignmenttwo.ui.list.ListViewModel
+import timber.log.Timber
 
 class ChampionDetailFragment : Fragment() {
 
@@ -28,11 +29,9 @@ class ChampionDetailFragment : Fragment() {
     private val listViewModel : ListViewModel by activityViewModels()
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?
     ): View? {
-
         _fragBinding = FragmentChampionDetailBinding.inflate(inflater, container, false)
         val root = fragBinding.root
 
@@ -50,29 +49,26 @@ class ChampionDetailFragment : Fragment() {
                 championViewModel.observableChampion.value?.uid!!)
             findNavController().navigateUp()
         }
-        return root
 
+        return root
     }
 
     private fun render() {
-
-        fragBinding.editName.setText("Name")
-        fragBinding.editDesc.setText("Description")
+        fragBinding.editName.setText("A Name")
         fragBinding.editWinrate.setText("0")
+        fragBinding.editDesc.setText("A Desc")
         fragBinding.championvm = championViewModel
     }
 
     override fun onResume() {
         super.onResume()
         championViewModel.getChampion(loggedInViewModel.liveFirebaseUser.value?.uid!!,
-            args.championid)    }
+            args.championid)
+
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _fragBinding = null
     }
-
-
-
-
 }

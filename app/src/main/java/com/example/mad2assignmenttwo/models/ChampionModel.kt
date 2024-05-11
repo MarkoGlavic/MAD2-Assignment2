@@ -6,9 +6,9 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class ChampionModel(var uid: String? = "",
-                         val championName: String = "N/A",
-                         val championDescription: String = "N/A",
-                         val winRate: Double = 0.0,
+                         var championName: String = "N/A",
+                         var championDescription: String = "N/A",
+                         var winRate: Double = 0.0,
                          var email: String? = "joe@bloggs.com") : Parcelable
 
 {

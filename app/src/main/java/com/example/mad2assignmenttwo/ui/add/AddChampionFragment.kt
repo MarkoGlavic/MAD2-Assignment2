@@ -47,7 +47,7 @@ class AddChampionFragment : Fragment() {
 
     fun setButtonListener(layout: FragmentAddChampionBinding) {
         layout.addChampionButton.setOnClickListener {
-            val winRate = if (layout.championWinRateEditText.text.isNotEmpty())
+            val winRate = if (layout.championWinRateEditText.text.toString().isNotEmpty())
                 layout.championWinRateEditText.text.toString().toDouble() else 0.0
             val name = layout.championNameEditText.text.toString()
             val desc = layout.championDescEditText.text.toString()

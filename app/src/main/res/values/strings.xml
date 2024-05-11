@@ -65,4 +65,10 @@
     <string name="role_winrate_label">WinRate:</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="button_delete">Delete</string>
+    <string name="button_edit">Edit</string>
+    <string name="hint_name">Placeholder Text</string>
+    <string name="hint_desc">Description</string>
+    <string name="hint_name_real">Name</string>
+    <string name="hint_wr">Winrate</string>
 </resources>
