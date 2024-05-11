@@ -12,6 +12,12 @@
             android:id="@+id/listFragment"
             android:icon="@drawable/ic_menu_list"
             android:title="@string/action_list" />
+
+        <item
+            android:id="@+id/signout"
+            android:icon="@android:drawable/ic_menu_revert"
+            android:onClick="signOut"
+            android:title="@string/sign_out" />
     </group>
 
 </menu>
